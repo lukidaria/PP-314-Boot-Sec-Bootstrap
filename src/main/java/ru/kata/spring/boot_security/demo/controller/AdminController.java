@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
+import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -22,7 +22,7 @@ public class AdminController {
     final private UserService userService;
 
     @Autowired
-    public AdminController(UserService userService) {
+    public AdminController(UserServiceImpl userService) {
         this.userService = userService;
     }
 

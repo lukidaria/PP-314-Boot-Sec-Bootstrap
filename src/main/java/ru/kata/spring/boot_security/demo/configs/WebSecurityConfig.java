@@ -9,8 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
-import ru.kata.spring.boot_security.demo.service.UserService;
+import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -23,10 +22,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         this.successUserHandler = successUserHandler;
     }
 
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @Autowired
-    public void setUserService(UserService userService) {
+    public void setUserService(UserServiceImpl userService) {
         this.userService = userService;
     }
 
@@ -57,45 +56,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder());
     }
-
-    // аутентификация inMemory
-//    @Bean
-//    @Override
-//    public UserDetailsService userDetailsService() {
-//        UserDetails user =
-//                User.withDefaultPasswordEncoder()
-//                        .username("user")
-//                        .password("user")
-//                        .roles("USER")
-//                        .build();
-//
-//        return new InMemoryUserDetailsManager(user);
-//    }
-
-
-    //JDBC authentication
-//    @Bean
-//    public JdbcUserDetailsManager users (DataSource dataSource){
-//        UserDetails user =
-//                User.builder()
-//                        .username("user")
-//                        .password("user")
-//                        .roles("USER")
-//                        .build();
-//
-//        UserDetails admin =
-//                User.builder()
-//                        .username("admin")
-//                        .password("admin")
-//                        .roles("USER", "ADMIN")
-//                        .build();
-//
-//        JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
-//        users.createUser(user);
-//        users.createUser(admin);
-//        return users;
-//
-//    }
 
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
