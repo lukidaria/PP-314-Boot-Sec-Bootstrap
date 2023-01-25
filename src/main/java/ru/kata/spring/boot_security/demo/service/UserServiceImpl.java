@@ -51,14 +51,13 @@ public class UserServiceImpl implements UserService {
             throw new UsernameNotFoundException("User " + username + " not found");
         }
 
-        return new org.springframework.security.core.userdetails.User(user.getUsername()
-                , user.getPassword(), mapRolesAuthorities(user.getRoles()));
+        return user;
     }
 
-    private Collection<? extends GrantedAuthority> mapRolesAuthorities(Collection<Role> roles) {
-        return roles.stream().map(r -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toSet());
-
-    }
+//    private Collection<? extends GrantedAuthority> mapRolesAuthorities(Collection<Role> roles) {
+//        return roles.stream().map(r -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toSet());
+//
+//    }
 
     public User findUserById(Long userId) {
         Optional<User> userFromDb = userRepository.findById(userId);
@@ -91,16 +90,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
-    public void updateUser(User user) {
-        User entity = userRepository.findUserByUsername(user.getUsername());
-        entity.setId(user.getId());
-        entity.setFirstName(user.getFirstName());
-        entity.setLastName(user.getLastName());
-        entity.setAge(user.getAge());
-        entity.setUsername(user.getUsername());
-        entity.setPassword(user.getPassword());
-        List<Role> roles = user.getRoles();
-        entity.setRoles(roles);
+    public void updateUser(Long id, User user) {
+        user.setId(id);
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+//        List<Role> roles = user.getRoles();
+//        entity.setRoles(roles);
+        userRepository.save(user);
     }
 
 

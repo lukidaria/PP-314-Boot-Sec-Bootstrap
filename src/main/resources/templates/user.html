@@ -3,36 +3,70 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>User panel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+    <title>User page</title>
 </head>
 <body>
+<div class="container-fluid">
+    <div class="row bg-dark text-white">
+        <div class="col-lg-11">
+            <p><span th:text="${user.username}"></span>
+                with roles:
+                <span th:text="${user.getRolesAtString()}"></span>
+            </p>
+        </div>
+        <div class="col-lg-1">
+            <a th:href="@{/user/logout}" class="stretched-link text-light">Logout</a>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-3">
+            <div>
+                <a th:href="@{/user}" class="stretched-link text-primary">User</a>
+            </div>
+        </div>
+        <div class="col-lg-9 bg-light">
+            <h1>User information page</h1>
+            <table class="table table-light">
+                <thead>
+                <tr class="table-secondary">
+                    <td>About user</td>
+                </tr>
+                </thead>
+            </table>
 
-<table class="table table-dark">
-    <thead>
-<!--    <h1>Welcome, th:text="${user.getUsername()}"</h1>-->
-    <tr>
-        <th>Username</th>
-        <th>Password</th>
-        <th>Roles</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:object="${user}" >
-        <br>
-        <h1>Welcome, user.getUsername()}"</h1>
-        <input type="hidden" th:field="*{id}" name="id"/>
-        <td th:text="${user.getUsername()}"/>
-        <td th:text="${user.getPassword()}"/>
-        <td th:text="${user.getRoles()}"/>
-    </tr>
-    </tbody>
-</table>
-<br>
-<br>
-<br>
-<form th:action="@{/user/logout}" th:method="get">
-    <input class="button button-block" type="submit" value="Logout"/>
-</form>
+            <table class="table bg-white table-striped caption-top">
+                <caption class="border-start-0 border-light"></caption>
+                <thead class="thead table-group-divider">
+                <tr class="table-light font-weight-bold">
+                    <td>ID</td>
+                    <td>First Name</td>
+                    <td>Last Name</td>
+                    <td>Age</td>
+                    <td>Email</td>
+                    <!--                    <th>Password</th>-->
+                    <td>Role</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:object="${user}">
+                    <td th:text="${user.getId()}"/>
+                    <td th:text="${user.getFirstName()}"/>
+                    <td th:text="${user.getLastName()}"/>
+                    <td th:text="${user.getAge()}"/>
+                    <td th:text="${user.getUsername()}"/>
+                    <td th:text="${user.getRolesAtString()}"/>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>
